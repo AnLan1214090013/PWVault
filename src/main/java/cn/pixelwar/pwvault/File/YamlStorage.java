@@ -1,14 +1,18 @@
 package cn.pixelwar.pwvault.File;
 
+import cn.pixelwar.pwvault.PWVault;
 import cn.pixelwar.pwvault.PlayerData.PlayerVaultData;
 import cn.pixelwar.pwvault.PlayerData.PlayerVaultDataManager;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -133,4 +137,20 @@ public class YamlStorage {
             System.out.println("玩家"+player.getName()+"的等级信息保存出错");
         }
     }
+
+    public void savePlayerDataTimer(){
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+
+               YamlStorage yamlStorage = new YamlStorage();
+                for(Player player : Bukkit.getServer().getOnlinePlayers()) {
+                    yamlStorage.savePlayerData(player);
+                }
+                PWVault.getPlugin().getLogger().info("自动保存-> 成功保存所有玩家仓库");
+            }
+        }.runTaskTimerAsynchronously(PWVault.getPlugin(), 0l, 2*60*20l);
+    }
+
+
 }

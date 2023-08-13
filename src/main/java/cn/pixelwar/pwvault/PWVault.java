@@ -36,6 +36,7 @@ public final class PWVault extends JavaPlugin {
             e.printStackTrace();
         }
         Bukkit.getLogger().info("[PixelWarSKAddon-Vault] has been enabled!");
+        setupTimer();
     }
 
     public SkriptAddon getAddonInstance() {
@@ -69,6 +70,11 @@ public final class PWVault extends JavaPlugin {
     public void loadIcons(){
         VaultMenu vaultMenu = new VaultMenu();
         vaultMenu.loadICONs();
+    }
+
+    public void setupTimer(){
+        YamlStorage yamlStorage = new YamlStorage();
+        yamlStorage.savePlayerDataTimer();
     }
 
 }
