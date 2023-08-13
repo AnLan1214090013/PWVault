@@ -7,6 +7,7 @@ import cn.pixelwar.pwvault.Listeners.OnClickEnderChest;
 import cn.pixelwar.pwvault.Listeners.OnClickVaultMenu;
 import cn.pixelwar.pwvault.Listeners.OnCloseInv;
 import cn.pixelwar.pwvault.Listeners.OnJoinQuit;
+import cn.pixelwar.pwvault.Utils.SaveInvToVault;
 import cn.pixelwar.pwvault.Vault.VaultMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -52,6 +53,15 @@ public final class PWVault extends JavaPlugin {
     public void onDisable() {
         YamlStorage yamlStorage = new YamlStorage();
         for(Player player : Bukkit.getServer().getOnlinePlayers()) {
+
+            //万一玩家仓库是开着的
+            if (player.getOpenInventory()!=null){
+                if (player.getOpenInventory().getTopInventory()!=null){
+                    if (player.getOpenInventory().getTitle().contains("仓库 #")){
+                        SaveInvToVault.saveItemInInv(player, player.getOpenInventory());
+                    }
+                }
+            }
             yamlStorage.savePlayerData(player);
         }
     }

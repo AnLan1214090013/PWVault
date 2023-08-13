@@ -59,9 +59,11 @@ public class YamlStorage {
             config.load(Config);
         } catch (IOException | InvalidConfigurationException ex) {
         }
+        int rowAmount = 1;
+        if (config.contains("rowAmount")){
+            rowAmount = config.getInt("rowAmount");
+        }
 
-
-        int rowAmount = config.getInt("rowAmount");
         Map<Integer, Material> icon = new ConcurrentHashMap<>();
 
         ConfigurationSection icons = config.getConfigurationSection("icons");
